@@ -1,0 +1,55 @@
+<div class="comment-item comment-{{comment.pk}}">
+    
+    <div class="comment-item-header">
+
+        <div class="comment-item-header-author">
+            {{ comment.author }}
+        </div>
+
+        <div class="comment-item-header-date">
+            {{ comment.date_of_publish|date:'Y-m-d H:i' }}
+        </div>
+
+    </div>
+
+    <div class="comment-item-body">
+        {{ comment.text }}
+    </div>
+
+    <div class="comment-reply-block">
+        
+        <div class="comment-item-reply-button">
+                <button class="reply-button">
+                    Reply
+                </button>
+        </div>
+
+        <div class="comment-item-num-replies">
+
+            <button class="show-replies-button" id="{{comment.pk}}" >
+                    {% if comment.children.get_queryset|length > 0 %}
+                        <span class="num-{{comment.pk}}">{{comment.children.get_queryset|length}}</span> replies
+                    {% else %}
+                    <span class="num-{{comment.pk}}">0</span> replies
+                    {% endif %}
+            </button>
+        
+        </div>
+    
+    </div>
+
+    <div class="comment-layer-block {{comment.pk}}">
+        {%if comment.children %}
+
+            
+                {% for ch in comment.children.get_queryset %}
+                    {% with comment=ch template_name="blog/tree_comment.html" %}
+                        {% include template_name %}
+                    {% endwith %}
+                {% endfor %}
+            
+        {% endif %}
+    </div>
+
+
+</div>

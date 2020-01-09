@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    {{article.title}}
+    {{article.increment_views}}
+{% endblock title %}
+
+
+
+
+{% block content %}
+
+    <div class="article-detail-container">
+
+        <div class="article-detail-title-block">
+            <h1>{{article.title}}</h1>
+        </div>
+
+        <div class="article-detail-subjects-block">
+            
+            {% for subject in article.subject.all %}
+                
+                <div class="article-detail-subject">
+                    <a href=" {% url 'blog:subject-detail' subject.slug  %}">
+                        <h4>{{subject.name}}</h4>
+                    </a>
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <div class="article-detail-content">
+            {{article.summary|safe}}
+        </div>
+
+        <div class="article-detail-comments-block">
+
+                <div class="article-comments-title">
+                    <h1>Comments:</h1>
+                </div>
+            
+                <div class="comment-layer-block comment-layer-block-first-layer">
+                    {% for comment in article.comment_set.all %}
+                        {% if not comment.parent %}     
+                            {% include "blog/tree_comment.html" %}
+                        {% endif %}
+                    {% endfor %}
+                </div> 
+        </div>
+
+        <div class="article-comment-form-block" id="comment_block">
+
+            <h1 class="article-comment-form-title">Your comment</h1>
+
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="comment-form-block">
+                        <input type="hidden" name="article" value="{{article.pk}}" id='article' >
+                        <input type="hidden" name="parent" value="none" id="parent">
+                        <div class="author-error error_text"></div>
+                        <input type="text" name="author" class="comment-form-author" placeholder="Your name">
+                        <div class="comment-error error_text"></div>
+                        <textarea name="text" cols="30" rows="10" class="comment-form-text" placeholder="Your comment"></textarea>
+                        <input type="submit" value="Publish" class="comment-form-submit">
+                </div>
+            </form>
+        
+        </div>
+        
+
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Articles
+{% endblock title %}
+
+
+
+{% block content %}
+
+        <!-- <div class="header-block">
+           <h1> Recent articles </h1>
+        </div> -->
+        
+
+        <div class="articles_block">
+
+
+                {% if article_list %}
+
+                    {% for article in article_list  %}
+                        
+                        <div class="article_block">
+
+
+                            <a href="{% url 'blog:article-detail' article.slug %}">
+
+                                    <div class="article_title_block">
+                                            <h2>{{article.title}}</h2>
+                                        </div>
+            
+                                        <div class="article_intro_block">
+                                            
+                                            {% if article.brief_introduction %}
+                                                <p>{{article.brief_introduction}}</p>
+                                            {% else %}
+                                                <p>No brief introduction</p>
+                                            {% endif %}
+                                                
+                                        </div>
+            
+                                        <div class="article_block_meta_info">
+                                            <div class="article_block_date">
+                                                <h5>{{article.date_of_publish}}</h5>
+                                            </div>
+                                            <div class="article_block_num_views">
+                                                <h5>
+                                                    {% if article.num_views == 0 %}
+                                                        No views
+                                                    {% else %}
+                                                        {{article.num_views}} views
+                                                    {% endif  %}
+                                                    
+                                                </h5>
+                                            </div>
+                                        </div>
+
+                            </a>
+
+                            
+                        </div>
+
+                    {% endfor %}
+                        
+                {% endif %}
+                
+        </div>
+
+        
+
+    </div>
+
+{% endblock content %}

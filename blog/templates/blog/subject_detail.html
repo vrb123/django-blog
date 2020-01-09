@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    {{subject.name}}
+{% endblock title %}
+
+
+
+{% block content %}
+
+    <div class="subject-detail-container">
+
+        <div class="subject-detail-description">
+            <div class="subject-detail-name">
+                <h1 class='subject-detail-name-header'>
+                    {{subject.name}}
+                </h1>
+            </div>
+            <div class="subject-detail-annotation">
+                <p class="subject-detail-annotation-text">
+                    {{subject.annotation}}
+                </p>
+            </div>
+        </div>
+
+        {% if subject.subject_set.all %}
+
+            <div class="header-block">
+                <h1> Related subjects </h1>
+            </div>
+
+            <div class="subject-related-subjects">
+                    
+            
+                    {% for sub in subject.subject_set.all %}
+
+                        <div class="subject_block">
+        
+                            <a href="{% url 'blog:subject-detail' sub.slug %}" class="subject_block_link">
+        
+                                    <div class="subject_block_title">
+                                            <h2>
+                                                    {{sub.name}}
+                                            </h2>
+                                    </div>
+                                    
+                                    <div class="subject_block_annotation">
+                                            <p>
+                                                {% if sub.annotation %}
+                                                        {{sub.annotation}}
+                                                {% else %}
+                                                        No description
+                                                {% endif %}
+                                            </p>
+                                        
+                                    </div>
+        
+                            </a>
+                            
+                        </div>
+    
+                    {% endfor %}
+
+                    
+            
+            </div>
+        {% endif %}
+
+        
+        <div class="header-block">
+            {% if subject.recent_articles %}
+                <h1> Recent articles </h1>
+            {% else %}
+                <h1> There arent any articles on this subject yet </h1>
+            {% endif %}
+        </div>
+        
+
+        
+
+        <div class="articles_block">
+
+                {% if subject.recent_articles %}
+
+                    
+                
+                    {% for article in subject.recent_articles  %}
+                        
+                        <div class="article_block">
+
+                            <a href="{% url 'blog:article-detail' article.slug %}">
+
+                                <div class="article_title_block">
+                                    <h2>{{article.title}}</h2>
+                                </div>
+
+                                <div class="article_intro_block">
+                                    {% if article.brief_introduction %}
+                                        <p>{{article.brief_introduction}}</p>
+                                    {% else %}
+                                        <p>No brief introduction</p>
+                                    {% endif %}
+                                </div>
+
+                                <div class="article_block_meta_info">
+                                    <div class="article_block_date">
+                                        <h5>{{article.date_of_publish}}</h5>
+                                    </div>
+                                    <div class="article_block_num_views">
+                                        <h5>
+                                            {% if article.num_views == 0 %}
+                                                No views
+                                            {% else %}
+                                                {{article.num_views}} views
+                                            {% endif  %}
+                                            
+                                        </h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                    {% endfor %}
+
+                    {% if subject.articles_length > 4 %}
+
+
+                        <div class="article_block">
+
+                                <a href="{% url 'articles-by-subject-slug' subject.slug %}">
+
+                                    <div class="article_title_block">
+                                        <h2>See more...</h2>
+                                    </div>
+
+                                    <div class="article_intro_block">
+                                        <p>View more articles on {{subject.name}} subject</p>
+                                    </div>
+
+                                </a>
+                        </div>
+
+                    {% endif %}
+                        
+                {% endif %}
+                
+        </div>
+
+        
+
+    </div>
+
+{% endblock content %}

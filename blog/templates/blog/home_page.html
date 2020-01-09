@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Home
+{% endblock title %}
+
+
+{% block content %}
+    
+<div class="subject-detail-container">
+
+        <div class="subject-detail-description">
+                <div class="subject-detail-name">
+                    <h1 class='subject-detail-name-header'>
+                        Computer Science Blog
+                    </h1>
+                </div>
+                <div class="subject-detail-annotation">
+                    <p class="subject-detail-annotation-text">
+                        Discover new things!
+                    </p>
+                </div>
+            </div>
+
+
+
+        <div class="header-block">
+            <h1>Most popular articles</h1>
+        </div>
+        
+
+        <div class="articles_block">
+
+                {% if most_popular_articles %}
+
+                            
+                    {% for article in most_popular_articles  %}
+                        
+                        <div class="article_block">
+
+                            <a href="{% url 'blog:article-detail' article.slug %}">
+
+                                <div class="article_title_block">
+                                    <h2>{{article.title}}</h2>
+                                </div>
+
+                                <div class="article_intro_block">
+                                    {% if article.brief_introduction %}
+                                        <p>{{article.brief_introduction}}</p>
+                                    {% else %}
+                                        <p>No brief introduction</p>
+                                    {% endif %}
+                                </div>
+
+                                <div class="article_block_meta_info">
+                                    <div class="article_block_date">
+                                        <h5>{{article.date_of_publish}}</h5>
+                                    </div>
+                                    <div class="article_block_num_views">
+                                        <h5>
+                                            {% if article.num_views == 0 %}
+                                                No views
+                                            {% else %}
+                                                {{article.num_views}} views
+                                            {% endif  %}
+                                            
+                                        </h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                    {% endfor %}
+                        
+                {% endif %}
+                
+        </div>
+
+        
+
+    </div>
+
+
+{% endblock content %}

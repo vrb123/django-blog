@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+  <title>{% block title %}Blog{% endblock %}</title>
+  <link href="https://fonts.googleapis.com/css?family=Zilla+Slab&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="{% static 'favicon.ico' type='image/x-icon' %}">
+  <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Добавление дополнительного статического CSS файла -->
+ 
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+
+</head>
+
+<body>
+
+  <div class="container-wrapper">
+
+    <div class="container">
+            <div class="nav-block">
+
+                    <div class="brand-name">
+                        <span class="brand">
+                            Computer Science Blog
+                        </span>
+                    </div>
+
+                    <div id="menu-toggler-block">
+                        <div class="bar1"></div>
+                        <div class="bar2"></div>
+                        <div class="bar3"></div>
+                      </div>
+                    
+                    <div class="menu-nav menu-mobile-nav">
+                        {% block navbar %}
+                            
+                            <ul class="menu-nav-list">
+                                <li><a href="{% url 'blog:index' %}">Home</a></li>
+                                <li><a href="{% url 'blog:subjects' %}">Subjects</a></li>
+                                <li><a href="{% url 'blog:articles' %}">Articles</a></li>
+                            </ul>
+                        {% endblock %}
+                    </div>
+                        
+            </div>
+
+            <div class="main-block">
+                {% block content %}{% endblock %}
+                    
+                {% block pagination %}
+                    
+                        <div class="pagination">
+                                    {% if is_paginated %}
+                                <div class="page-links">
+                                    <div class="page-links-button-block">
+                                        {% if page_obj.has_previous %}
+                                            <a href="{{request.path}}?page={{page_obj.previous_page_number}}">
+                                                <span class="page-button">
+                                                        <
+                                                </span>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+
+
+                                    <span class="page-current">
+                                            Page {{page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                                    </span>
+                                    
+                                    <div class="page-links-button-block">
+                                            {% if page_obj.has_next %}
+                                            <a href="{{request.path}}?page={{page_obj.next_page_number}}">
+                                                    <span class="page-button">
+                                                        >
+                                                    </span>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    
+                                    
+                                </div>
+                                {% endif %}
+                            </div>
+                    
+                {% endblock %}
+            </div>
+    </div>
+
+  </div>
+
+  <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Subjects
+{% endblock title %}
+
+
+
+{% block content %}
+
+<div class="subject_list_container">
+
+        <div class="header-block">
+                <h1> Subjects </h1>
+        </div>
+
+    {% if subject_list %}
+
+        <div class="subject_list_block">
+
+            {% for subject in subject_list %}
+
+                <div class="subject_block">
+
+                    <a href="{% url 'blog:subject-detail' subject.slug %}" class="subject_block_link">
+
+                            <div class="subject_block_title">
+                                    <h2>
+                                            {{subject.name}}
+                                    </h2>
+                            </div>
+                            
+                            <div class="subject_block_annotation">
+                                    <p>
+                                        {% if subject.annotation %}
+                                                {{subject.annotation}}
+                                        {% else %}
+                                                No description
+                                        {% endif %}
+                                    </p>
+                                
+                            </div>
+
+                    </a>
+                    
+                </div>
+
+            {% endfor %}
+        
+        </div>
+
+    {% else %}
+        <h4 class="not-found">
+            No subjects found
+        </h4>
+    {% endif %}
+
+</div>
+    
+    
+
+{% endblock content %}
